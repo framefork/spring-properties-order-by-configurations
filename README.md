@@ -11,7 +11,7 @@ Currently, the oldest supported Spring Boot is 3.2+
 
 ## Motivation
 
-The author of this library typically structures their Spring Boot applications with the following example modules:
+The author of this library typically structures their Spring Boot applications with the following illustrative modules:
 * `app` (depends on `core-business-logic`)
 * `core-business-logic` (depends on `common` and `core-separate-module`)
 * `core-separate-module` (depends on `common`)
@@ -23,9 +23,11 @@ Where
 * The `.properties` are loaded with `@PropertySource(...)` on a `@Configuration` class
 * The `core-*` may want to define some "defaults" like `spring.main.web-application-type=none`, but the `app` would like it to be `spring.main.web-application-type=servlet`
 
-This usually leads to a situation where it sorts the classes based on some arbitrary rule, and then the properties are sorted by the ordering of the configuration classes,
-and the only ordering you can rely on is when you put both `@PropertySource`'s on the same `@Configuration` class, but that kinda defeats the purpose of splitting the application into modules.  
-You'll end up with working `core-*` but broken `app` because it gives the `.properties` higher priority and the `spring.main.web-application-type=servlet` is ignored.
+With this, you might end up with working `core-*` but broken `app` because Spring may give the `.properties` in `core-*` a higher priority which causes the `spring.main.web-application-type=servlet` to be ignored.
+
+This happens because Spring sorts the classes based on some arbitrary rule (or even better - randomly),
+and the only ordering you can rely on is when you put both `@PropertySource`'s on the same `@Configuration` class.
+But that kinda defeats the purpose of splitting the application into modules.
 
 I think that it's reasonable to assume, that if `app` depends on `core-*` it might want to be able to **override** some default values provided by the `core-*`, and this library solves that.
 It sorts the `.properties` based on the `@Import()`'s on your `@Configuration` classes, so that in `app` you can add `@Import` on some `core-*` `@Configuration` to say "I depend on this, allow me to override its properties".
