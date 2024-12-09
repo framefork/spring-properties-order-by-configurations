@@ -7,6 +7,8 @@ This enables you to define a stable ordering, making property resolution predict
 
 Just install the latest version of `org.framefork:spring-properties-order-by-configurations` dependency, and everything should start working - the configuration autoloads in a Spring Boot project.
 
+Currently, the oldest supported Spring Boot is 3.2+
+
 ## Motivation
 
 The author of this library typically structures their Spring Boot applications with the following example modules:
