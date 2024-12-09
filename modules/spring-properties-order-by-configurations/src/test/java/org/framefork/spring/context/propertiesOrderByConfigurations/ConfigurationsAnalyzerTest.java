@@ -65,6 +65,7 @@ class ConfigurationsAnalyzerTest
                 "class path resource [config61.properties]",
                 "class path resource [config72.properties]",
                 "class path resource [config71.properties]",
+                "class path resource [application.properties]",
                 "class path resource [config1.properties]",
                 "class path resource [config3.properties]"
             );
@@ -109,6 +110,7 @@ class ConfigurationsAnalyzerTest
 
         @Configuration
         @Import({CoreConfiguration1.class})
+        @PropertySource("classpath:application.properties")
         public static class AppConfiguration4
         {
 

@@ -3,6 +3,9 @@ package org.framefork.spring.context.propertiesOrderByConfigurations;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
+import org.springframework.boot.env.OriginTrackedMapPropertySource;
+import org.springframework.boot.origin.OriginProvider;
+import org.springframework.boot.origin.TextResourceOrigin;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.annotation.AnnotationAttributes;
@@ -49,11 +52,33 @@ final class SpringConfigurationUtils
         return result;
     }
 
-    static List<ResourcePropertySource> getResourcePropertySources(final List<PropertySource<?>> propertySources)
+    static List<PropertySource<?>> getResourcePropertySources(final List<PropertySource<?>> propertySources)
     {
         return propertySources.stream()
-            .filter(ResourcePropertySource.class::isInstance)
-            .map(ResourcePropertySource.class::cast)
+            .filter(source -> {
+                if (source instanceof ResourcePropertySource) {
+                    return true;
+                }
+
+                if (source instanceof OriginTrackedMapPropertySource originTrackedSource) {
+                    for (var value : originTrackedSource.getSource().values()) {
+                        if (value instanceof OriginProvider originProvider) {
+                            var origin = originProvider.getOrigin();
+                            if (origin instanceof TextResourceOrigin textResourceOrigin) {
+                                String filename = textResourceOrigin.getResource().getFilename();
+                                if (filename != null && filename.endsWith(".properties")) {
+                                    return true;
+                                }
+                            }
+                            break;
+                        }
+                    }
+
+                    return true;
+                }
+
+                return false;
+            })
             .toList();
     }
 

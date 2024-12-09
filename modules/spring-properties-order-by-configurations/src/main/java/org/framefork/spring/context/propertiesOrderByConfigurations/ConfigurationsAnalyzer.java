@@ -1,8 +1,6 @@
 package org.framefork.spring.context.propertiesOrderByConfigurations;
 
 import org.framefork.spring.context.propertiesOrderByConfigurations.SpringConfigurationUtils.PropertySourceResource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -27,8 +25,6 @@ import java.util.function.Consumer;
 
 class ConfigurationsAnalyzer
 {
-
-    private static final Logger log = LoggerFactory.getLogger(ConfigurationsAnalyzer.class);
 
     private final List<ConfigurationClass> configurations;
     private final List<ConfigurationClass> sortedConfigurationClasses;
@@ -130,7 +126,6 @@ class ConfigurationsAnalyzer
             for (Class<?> directImport : configurationClass.directImports()) {
                 ConfigurationClass importedConfigurationClass = configurationClassTypes.get(directImport);
                 if (importedConfigurationClass == null) {
-                    log.debug("No ConfigurationClass found for {} - it was probably disabled", directImport.getName());
                     continue;
                 }
                 dependencyNode.addChild(
