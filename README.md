@@ -33,3 +33,5 @@ I think that it's reasonable to assume, that if `app` depends on `core-*` it mig
 It sorts the `.properties` based on the `@Import()`'s on your `@Configuration` classes, so that in `app` you can add `@Import` on some `core-*` `@Configuration` to say "I depend on this, allow me to override its properties".
 
 For working example, look into the `testing/` directory.
+
+typo
