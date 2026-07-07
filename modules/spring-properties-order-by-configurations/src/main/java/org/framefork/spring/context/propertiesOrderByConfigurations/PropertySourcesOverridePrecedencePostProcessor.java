@@ -72,7 +72,7 @@ public class PropertySourcesOverridePrecedencePostProcessor implements BeanFacto
         );
 
         // we will use the first resource as a cursor and will start adding other resources after it
-        String previousName = allPropertySources.get(Math.max(0, allPropertySources.indexOf(resourcePropertySources.getFirst()) - 1)).getName();
+        String previousName = allPropertySources.get(Math.max(0, allPropertySources.indexOf(resourcePropertySources.get(0)) - 1)).getName();
         for (var nextResource : configurations.getPropertySourcesOrder()) {
             String nextResourceName = nextResource.name();
 
