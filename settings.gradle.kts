@@ -1,21 +1,17 @@
-import kotlin.io.path.listDirectoryEntries
-
 pluginManagement {
-}
-
-dependencyResolutionManagement {
-    versionCatalogs {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
     }
 }
 
+plugins {
+    id("org.framefork.build") version "0.2.0"
+}
+
+framefork {
+    minJavaVersion = 21
+    jdkVersion = 21
+}
+
 rootProject.name = "spring-properties-order-by-configurations"
-
-file("${rootProject.projectDir}/modules").toPath().listDirectoryEntries().forEach { moduleDir ->
-    include("${moduleDir.fileName}")
-    project(":${moduleDir.fileName}").projectDir = moduleDir.toFile()
-}
-
-file("${rootProject.projectDir}/testing").toPath().listDirectoryEntries().forEach { moduleDir ->
-    include("${moduleDir.fileName}")
-    project(":${moduleDir.fileName}").projectDir = moduleDir.toFile()
-}
