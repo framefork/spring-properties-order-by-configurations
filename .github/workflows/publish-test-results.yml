@@ -6,6 +6,8 @@ on:
     types: [ completed ]
 
 permissions:
+  actions: read
+  contents: read
   checks: write
 
 jobs:
@@ -13,10 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download Test Report
-        uses: dawidd6/action-download-artifact@v2
+        uses: dawidd6/action-download-artifact@v9
         with:
-          name: junit-test-results
-          workflow: ${{ github.event.workflow.id }}
+          name: junit-test-results.*
+          name_is_regexp: true
           run_id: ${{ github.event.workflow_run.id }}
 
       - name: Publish Test Report
