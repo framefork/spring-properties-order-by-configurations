@@ -10,7 +10,7 @@ plugins {
 }
 
 framefork {
-    minJavaVersion = 21
+    minJavaVersion = 17
     jdkVersion = 21
 }
 
